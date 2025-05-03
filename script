@@ -1,27 +1,40 @@
 import re
 
+# A small sample of common words for demonstration (can be expanded or replaced with a larger list)
+common_words = set([
+    "password", "welcome", "admin", "user", "sunshine", "football", "monkey"
+])
+
 def check_password_strength(password):
+    # Check for length
     if len(password) < 12:
         return "Weak: Password must be at least 12 characters long."
+    
+    # Check for uppercase letter
     elif not re.search(r"[A-Z]", password):
         return "Weak: Password must contain at least one uppercase letter."
+    
+    # Check for lowercase letter
     elif not re.search(r"[a-z]", password):
         return "Weak: Password must contain at least one lowercase letter."
+    
+    # Check for digit
     elif not re.search(r"[0-9]", password):
         return "Weak: Password must contain at least one digit."
+    
+    # Check for special character
     elif not re.search(r"[@_!#$%^&*()<>?/\\|}{~:]", password):
         return "Weak: Password must contain at least one special character."
+    
+      # Check for common words
+    elif any(common_word in password.lower() for common_word in common_words):
+        return "Weak: Password contains a common word. Avoid using easily guessable terms."
+    
+    # If all conditions are met, the password is strong
     else:
         return "Strong: Password meets all criteria."
 
 if __name__ == "__main__":
-    while True:
-        password = input("Enter your password: ")
-        strength = check_password_strength(password)
-        print(strength)
-       
-        # Ask the user if they want to try again
-        try_again = input("\nWould you like to try another password? (yes/no): ").strip().lower()
-        if try_again != "yes":
-            print("Goodbye!")
-            break
+    password = input("Enter your password: ")
+    strength = check_password_strength(password)
+    print(strength)
